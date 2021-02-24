@@ -2,10 +2,6 @@ int led13 = 13; //Hookedup    // the pin the LED is connected to
 int led12 = 12;
 int led11 = 11; //Hookedup
 int led10 = 10;
-int brightness = 255;
-int fade = 1;            // Fade speed of the light
-int period = 10;         // Time the light turns on and off
-
 
 void setup() {
   pinMode(led13, OUTPUT); // Declare the LED as an output

@@ -1,0 +1,31 @@
+#include <Adafruit_BusIO_Register.h>
+#include <Adafruit_I2CDevice.h>
+#include <Adafruit_I2CRegister.h>
+#include <Adafruit_SPIDevice.h>
+
+#include <Adafruit_VEML6075.h>
+
+int LightSensor = VEML6075_50MS;
+int inPin = 21;
+int lightPin = 7;
+int digitalValue = 0;
+
+void setup() {
+  pinMode(lightPin, OUTPUT);     // connected to S terminal of Relay
+  pinMode(inPin, INPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  digitalWrite(lightPin,HIGH);                // turn relay ON
+  delay(10000);                               // keep it ON for 12 hours
+
+  digitalWrite(lightPin, LOW);                // turn relay OFF
+  delay(10000);                               // keep it OFF for 12 hours
+  
+  digitalValue = digitalRead(inPin);
+  digitalWrite(lightPin, digitalValue);
+  
+  Serial.print("Digital reading = ");
+  Serial.print(digitalValue);                  // the raw analog reading
+}

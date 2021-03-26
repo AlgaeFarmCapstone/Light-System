@@ -1,0 +1,33 @@
+#include <Adafruit_BusIO_Register.h>
+#include <Wire.h> 
+#include "Adafruit_VEML6075.h"
+
+Adafruit_VEML6075 uv = Adafruit_VEML6075();
+
+int inPin = 21;
+int lightPin = 7;
+int digitalValue = 0;
+
+void setup() {
+  pinMode(lightPin, OUTPUT);     // connected to S terminal of Relay
+  pinMode(inPin, INPUT);
+  
+  Serial.begin(38400);
+  Serial.println("VEML6075 Test");
+
+  if (! uv.begin()) {
+    Serial.println("Failed to communicate with VEML6075 sensor.");
+  }
+  Serial.println("Found the VEML6075 sensor");
+}
+
+void loop() {
+  digitalWrite(lightPin,HIGH);                // turn relay ON
+  delay(10000);                              // keep it ON for 12 hours
+
+  digitalWrite(lightPin, LOW);                // turn relay OFF
+  delay(10000);                              // keep it OFF for 12 hours
+  
+  Serial.print("UV Index reading: "); Serial.println(uv.readUVI());
+  delay(1000);
+}

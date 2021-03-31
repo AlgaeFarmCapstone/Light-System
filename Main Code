@@ -21,16 +21,19 @@ void setup() {
   Serial.println("Found the VEML6075 sensor");
 }
 
+
 void loop() {
-  digitalWrite(lightPin,HIGH);                // turn relay ON
+  digitalWrite(lightPin,HIGH);               // turn relay ON
   delay(10000);                              // keep it ON for 12 hours
   
-  Serial.print("UV Index reading: "); Serial.println(uv.readUVI());
+  Serial.print("UV Index reading - LIGHT OFF: "); 
+  Serial.println(uv.readUVI());
   delay(1000);
   
-  digitalWrite(lightPin, LOW);                // turn relay OFF
+  digitalWrite(lightPin, LOW);               // turn relay OFF
   delay(10000);                              // keep it OFF for 12 hours
   
-  Serial.print("UV Index reading: "); Serial.println(uv.readUVI());
+  Serial.print("UV Index reading - LIGHT ON: "); 
+  Serial.println(uv.readUVI());
   delay(1000);
 }

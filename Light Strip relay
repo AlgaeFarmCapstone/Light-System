@@ -1,0 +1,15 @@
+int lightPin = 7;
+int digitalValue = 0;
+
+void setup() {
+  pinMode(lightPin, OUTPUT);     // connected to S terminal of Relay
+  Serial.begin(38400);
+}
+
+void loop() {
+  digitalWrite(lightPin,HIGH);               // turn relay ON
+  delay(10000);                              // keep it ON for 12 hours
+  
+  digitalWrite(lightPin, LOW);               // turn relay OFF
+  delay(10000);                              // keep it OFF for 12 hours
+}

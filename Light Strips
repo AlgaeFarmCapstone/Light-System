@@ -1,0 +1,73 @@
+#include <FastLED.h>
+
+// How many leds in your strip?
+#define NUM_LEDS 120
+#define TWELVE_HRS 43200000UL
+unsigned long startTime;
+
+// For led chips like WS2812, which have a data line, ground, and power, you just
+// need to define DATA_PIN.  For led chipsets that are SPI based (four wires - data, clock,
+// ground, and power), like the LPD8806 define both DATA_PIN and CLOCK_PIN
+// Clock pin only needed for SPI based chipsets when not using hardware SPI
+#define DATA_PIN1 3
+#define CLOCK_PIN 13
+#define DATA_PIN2 4
+
+int pos;
+static uint8_t red_hue = 255;
+static uint8_t green_hue = 255;
+static uint8_t blue_hue = 255;
+
+// Define the array of leds
+CRGB leds[NUM_LEDS];
+
+void setup() { 
+   
+   startTime = millis();
+   Serial.begin(57600);
+   LEDS.addLeds<WS2812B,DATA_PIN1,RGB>(leds,NUM_LEDS);
+   LEDS.addLeds<WS2812B,DATA_PIN2,RGB>(leds,NUM_LEDS);
+
+   LEDS.setBrightness(200);                            // Values 0-25532a
+}
+
+void loop() { 
+
+  // Outbound dot
+if (millis() - startTime > TWELVE_HRS)
+  {
+    // Put your code that runs every 12 hours here
+        
+    startTime = millis();
+    for(pos=1;pos<NUM_LEDS;pos=pos+1)
+    {  
+
+   red_hue=255;                                   //Set the RGB colors 0-255.  All 255 is white. All zero equals black.
+   green_hue=255;
+   blue_hue=255;
+   leds[pos] = CRGB(green_hue,red_hue,blue_hue);  //This is correct.  It fixes a hardware problem.
+   
+   leds[pos-1] = CRGB::Black;                  //Same as "turn off the LED"
+   FastLED.show();                                //Call to update the display according to any memory array changes
+   Serial.print("Loop1:");  
+   Serial.println(pos);                                       
+   //   delay(300);
+    }
+
+   // Returning dot
+
+   for(pos=58;pos>-1;pos=pos-1){  
+    
+   red_hue=255;                                  //Set the RGB colors 0-255.  All 255 is white. All zero equals black.
+   green_hue=255;
+   blue_hue=255;
+   leds[pos] = CRGB(green_hue,red_hue,blue_hue); //This is correct.  It fixes a hardware problem.
+   
+   leds[pos+1] = CRGB::Black;                  //Same as "turn off the LED"
+   FastLED.show();                               //Call to update the display according to any memory array changes
+   Serial.print("Loop2:");  
+   Serial.println(pos);                                       
+  //   delay(300);
+    }
+  }
+}
